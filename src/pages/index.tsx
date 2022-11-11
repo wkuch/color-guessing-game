@@ -68,7 +68,6 @@ const Home: NextPage = () => {
         <p className="mb-3 text-2xl text-gray-700">
           Guess the hex value of this color:
         </p>
-        <div>{dispayedColor}</div>
         <div className="w-1/4">
           <div
             className=" w-full rounded-lg pt-[100%]"
