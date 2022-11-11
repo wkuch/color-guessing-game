@@ -1,8 +1,51 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
+  //create random color in hex format
+  const creatRdmColor = () => {
+    return "#" + Math.floor(Math.random() * 16777215).toString(16);
+  };
+
+  const createRmdColorArray = () => {
+    const colorArray: string[] = [];
+    for (let i = 0; i < 3; i++) {
+      colorArray.push(creatRdmColor());
+    }
+    return colorArray;
+  };
+
+  const [colors, setColors] = useState([""]);
+  useEffect(() => setColors(createRmdColorArray()), []);
+
+  const [dispayedColor, setDispayedColor] = useState("");
+  useEffect(
+    () =>
+      setDispayedColor(
+        colors[Math.floor(Math.random() * (colors.length - 1))] || ""
+      ),
+    [colors]
+  );
+
+  const [guessedWrong, setguessedWrong] = useState(false);
+
+  const handleClick = (clickedColor: string) => {
+    if (clickedColor === dispayedColor) {
+      setguessedWrong(false);
+      console.log("correct");
+      const newColors = createRmdColorArray();
+      setColors(newColors);
+      setDispayedColor(
+        newColors[Math.floor(Math.random() * (newColors.length - 1))] || ""
+      );
+    } else {
+      setguessedWrong(true);
+      console.log("wrong");
+    }
+  };
+
   return (
     <>
       <Head>
@@ -15,39 +58,21 @@ const Home: NextPage = () => {
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           Create <span className="text-purple-300">T3</span> App
         </h1>
-        <p className="text-2xl text-gray-700">This stack uses:</p>
-        <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-3 lg:w-2/3">
-          <TechnologyCard
-            name="NextJS"
-            description="The React framework for production"
-            documentation="https://nextjs.org/"
-          />
-          <TechnologyCard
-            name="TypeScript"
-            description="Strongly typed programming language that builds on JavaScript, giving you better tooling at any scale"
-            documentation="https://www.typescriptlang.org/"
-          />
-          <TechnologyCard
-            name="TailwindCSS"
-            description="Rapidly build modern websites without ever leaving your HTML"
-            documentation="https://tailwindcss.com/"
-          />
-          <TechnologyCard
-            name="tRPC"
-            description="End-to-end typesafe APIs made easy"
-            documentation="https://trpc.io/"
-          />
-          <TechnologyCard
-            name="Next-Auth"
-            description="Authentication for Next.js"
-            documentation="https://next-auth.js.org/"
-          />
-          <TechnologyCard
-            name="Prisma"
-            description="Build data-driven JavaScript & TypeScript apps in less time"
-            documentation="https://www.prisma.io/docs/"
-          />
+        <p className="mb-3 text-2xl text-gray-700">This stack uses:</p>
+        <div>color in hex: {dispayedColor}</div>
+        <div className="p-6" style={{ backgroundColor: dispayedColor }}></div>
+        <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-3 lg:w-1/4">
+          <button onClick={() => handleClick(colors[0] || "")}>
+            {colors[0]}
+          </button>
+          <button onClick={() => handleClick(colors[1] || "")}>
+            {colors[1]}
+          </button>
+          <button onClick={() => handleClick(colors[2] || "")}>
+            {colors[2]}
+          </button>
         </div>
+        {guessedWrong && <div>Try Again</div>}
       </main>
     </>
   );
