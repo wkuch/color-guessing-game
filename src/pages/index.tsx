@@ -3,9 +3,14 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
+  const randomHex = (maxNumber: number) => {
+    const rdmHex = Math.floor(Math.random() * maxNumber).toString(16);
+    return rdmHex.length === 1 ? "0" + rdmHex : rdmHex;
+  };
+
   //create random color in hex format
   const creatRdmColor = () => {
-    return "#" + Math.floor(Math.random() * 16777215).toString(16);
+    return "#" + randomHex(255) + randomHex(255) + randomHex(255);
   };
 
   const createRmdColorArray = () => {
@@ -29,10 +34,12 @@ const Home: NextPage = () => {
   );
 
   const [guessedWrong, setguessedWrong] = useState(false);
+  const [guessedRight, setguessedRight] = useState(false);
 
   const handleClick = (clickedColor: string) => {
     if (clickedColor === dispayedColor) {
       setguessedWrong(false);
+      setguessedRight(true);
       console.log("correct");
       const newColors = createRmdColorArray();
       setColors(newColors);
@@ -40,6 +47,7 @@ const Home: NextPage = () => {
         newColors[Math.floor(Math.random() * (newColors.length - 1))] || ""
       );
     } else {
+      setguessedRight(false);
       setguessedWrong(true);
       console.log("wrong");
     }
@@ -60,6 +68,7 @@ const Home: NextPage = () => {
         <p className="mb-3 text-2xl text-gray-700">
           Guess the hex value of this color:
         </p>
+        <div>{dispayedColor}</div>
         <div className="w-1/4">
           <div
             className=" w-full rounded-lg pt-[100%]"
@@ -89,6 +98,11 @@ const Home: NextPage = () => {
         {guessedWrong && (
           <div className="mt-5 rounded-xl border border-red-700 p-1 font-bold text-red-700">
             Try Again
+          </div>
+        )}
+        {guessedRight && (
+          <div className="mt-5 rounded-xl border border-green-700 p-1 font-bold text-green-700">
+            Correct
           </div>
         )}
       </main>
