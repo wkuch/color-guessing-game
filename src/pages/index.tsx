@@ -54,25 +54,44 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-        <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
-          Create <span className="text-purple-300">T3</span> App
+      <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4 text-center">
+        <h1 className="mb-3 text-4xl font-extrabold leading-normal text-gray-700 md:text-[3rem]">
+          Hex color guessing game
         </h1>
-        <p className="mb-3 text-2xl text-gray-700">This stack uses:</p>
-        <div>color in hex: {dispayedColor}</div>
-        <div className="p-6" style={{ backgroundColor: dispayedColor }}></div>
-        <div className="mt-3 grid gap-3 pt-3 text-center md:grid-cols-3 lg:w-1/4">
-          <button onClick={() => handleClick(colors[0] || "")}>
+        <p className="mb-3 text-2xl text-gray-700">
+          Guess the hex value of this color:
+        </p>
+        <div className="w-1/4">
+          <div
+            className=" w-full rounded-lg pt-[100%]"
+            style={{ backgroundColor: dispayedColor }}
+          ></div>
+        </div>
+        <div className="mt-3 grid grid-cols-3 gap-3 pt-3 text-center lg:w-1/4">
+          <button
+            className="rounded-md border bg-gray-200 p-2 shadow-md hover:bg-gray-100"
+            onClick={() => handleClick(colors[0] || "")}
+          >
             {colors[0]}
           </button>
-          <button onClick={() => handleClick(colors[1] || "")}>
+          <button
+            className="rounded-md border bg-gray-200 p-2 shadow-md hover:bg-gray-100"
+            onClick={() => handleClick(colors[1] || "")}
+          >
             {colors[1]}
           </button>
-          <button onClick={() => handleClick(colors[2] || "")}>
+          <button
+            className="rounded-md border bg-gray-200 p-2 shadow-md hover:bg-gray-100"
+            onClick={() => handleClick(colors[2] || "")}
+          >
             {colors[2]}
           </button>
         </div>
-        {guessedWrong && <div>Try Again</div>}
+        {guessedWrong && (
+          <div className="mt-5 rounded-xl border border-red-700 p-1 font-bold text-red-700">
+            Try Again
+          </div>
+        )}
       </main>
     </>
   );
